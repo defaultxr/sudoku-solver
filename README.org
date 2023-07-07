@@ -1,0 +1,52 @@
+#+TITLE: sudoku-solver
+
+A simple sudoku solver in Common Lisp.
+
+I'm not sure if the algorithm and implementation used here are the "best" or most "efficient" way to solve a sudoku; I just wrote this for fun to see if I could do it. In fact, I'm not certain that it is free of bugs in its current state, nor that it can solve all sudokus. At the moment, this system will only attempt one level of "guessing"; ~sudoku-solve~ will first fill in all blanks with unambiguous answers, and then for each remaining blank, will check whether any possibility makes the rest of the puzzle unambiguous.
+
+To use it, call ~sudoku-solve~ on a sudoku board. A board must be provided as a list of 81 elements, where each element is either a number (1-9) or a ~-~ (dash) for a blank slot.
+
+Example:
+
+#+begin_src lisp
+  (sudoku-solve '(- - 1 6 3 8 - - 2
+                  4 - 3 9 5 - - - -
+                  - - - 4 7 - 3 1 9
+                  - - 9 - - 7 5 - -
+                  - - 4 - - 5 - - 8
+                  5 1 8 - - 4 - - 7
+                  8 - - - 2 - - 7 4
+                  - - 2 7 4 - - - 5
+                  - 4 7 - 8 9 - 6 -))
+#+end_src
+
+* Functions
+
+These are the most important functions in ~sudoku-solver~.
+
+** ~sudoku-print~
+Pretty-print a sudoku board.
+
+** ~sudoku-elt~
+Get the value of a cell (by index, i.e. 0-81) in a sudoku board.
+
+** ~sudoku-at~
+Get the value of a cell (by X,Y index, i.e. 0-9, 0-9) in a sudoku board.
+
+** ~sudoku-possibilities-at~
+Get the possible (unambiguous) answers for a cell in a sudoku board.
+
+** ~sudoku-fill-unambiguous~
+Fill in all unambiguous answers for a sudoku board. This function will loop until the sudoku is solved, or all remaining blanks have more than one possible answer. In other words, it will not make any "guesses".
+
+** ~sudoku-solved-p~
+True if the supplied board does not have any blank slots.
+
+** ~sudoku-valid-solution-p~
+True if the supplied board does not have any blank slots, and if each row, column, and 3x3 block are valid (no repeated numbers).
+
+** ~sudoku-guess-all~
+For each blank slot in the board, check if any possibility makes the rest of the board unambiguous. If so, fill in the unambiguous slots and return the solved puzzle. Note that this function will only attempt one "layer" of guesses; in other words, it's possible it may not be able to find a solution.
+
+** ~sudoku-solve~
+Right now, this function just calls ~sudoku-guess-all~. So it may not be able to find a solution. In the future, this function will be made to try multiple layers of guesses, to guarantee finding a solution.
