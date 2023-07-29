@@ -1,4 +1,4 @@
-;;;; t/test.lisp - basic tests and test utilities/fixtures/etc for the cl-patterns test suite.
+;;;; t/test.lisp - basic tests and test utilities/fixtures/etc for the sudoku-solver test suite.
 
 (defpackage #:sudoku-solver/tests
   (:use #:cl
